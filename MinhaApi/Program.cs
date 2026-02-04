@@ -2,7 +2,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
 
+builder.Services.AddControllers();
 var app = builder.Build();
+
+app.MapControllers();
+
 
 if (app.Environment.IsDevelopment())
 {
@@ -36,3 +40,4 @@ record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 }
+
