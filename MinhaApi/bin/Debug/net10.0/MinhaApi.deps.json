@@ -9,6 +9,7 @@
       "MinhaApi/1.0.0": {
         "dependencies": {
           "Microsoft.AspNetCore.OpenApi": "10.0.2",
+          "Microsoft.EntityFrameworkCore": "10.0.2",
           "Microsoft.EntityFrameworkCore.Tools": "10.0.2",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "10.0.0"
         },

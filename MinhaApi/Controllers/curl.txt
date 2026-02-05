@@ -1,0 +1,8 @@
+curl -X POST "http://localhost:5247/api/LotesMinerio" ^
+  -H "Content-Type: application/json" ^
+  -d "{ \"codigoLote\": \"MNA-2026-000130\", \"minaOrigem\": \"Carajás N4E\", 
+  \"teorFe\": 64.7, \"umidade\": 6.1, \"siO2\": 2.0, \"p\": 0.043, \"toneladas\": 3000.000, 
+  \"dataProducao\": \"2026-02-03T12:00:00Z\", \"status\": 0, \"localizacaoAtual\": 
+  \"Pátio Carajás\" }"
+
+curl -X GET "http://localhost:5247/api/LotesMinerio/1"
