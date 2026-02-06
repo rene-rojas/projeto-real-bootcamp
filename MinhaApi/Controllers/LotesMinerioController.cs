@@ -72,13 +72,13 @@ namespace MinhaApi.Controllers
         }
 
         
-        // [HttpGet("")]
-        // [ProducesResponseType(typeof(IEnumerable<LoteMinerio>), StatusCodes.Status200OK)]
-        // public async Task<IActionResult> GetAll()
-        // {
-        //     var lotes = await _db.LotesMinerio.AsNoTracking().ToListAsync();
-        //     return Ok(lotes);
-        // }
+        [HttpGet("")]
+        //[ProducesResponseType(typeof(IEnumerable<LoteMinerio>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAll()
+        {
+            var lotes = await _db.LotesMinerio.AsNoTracking().ToListAsync();
+            return Ok(lotes);
+        }
         
 
     }

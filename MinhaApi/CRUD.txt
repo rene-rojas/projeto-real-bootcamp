@@ -1,0 +1,54 @@
+✅ O que é um CRUD?
+CRUD é o conjunto básico de operações sobre dados:
+Letra	Operação	HTTP	Descrição
+C	Create	POST	Criar um novo registro
+R	Read	GET	Ler um ou vários registros
+U	Update	PUT/PATCH	Atualizar um registro existente
+D	Delete	DELETE	Remover um registro
+
+Construir o Controller
+E aqui entram os 4 grandes tópicos:
+________________________________________
+⭐ 1) CREATE (POST)
+O passo a passo é:
+1.	Receber os dados do cliente (Corpo da requisição)
+2.	Validar: 
+o	Campos obrigatórios
+o	Intervalos
+o	Regras de negócio (ex.: código de lote único)
+3.	Criar um objeto de domínio
+4.	Salvar no banco (_db.Add + SaveChanges)
+5.	Retornar HTTP 201 Created + link para consultar
+
+⭐ 2) READ (GET)
+Existem dois tipos:
+a) GET por ID
+1.	Recebe {id}
+2.	Busca no banco
+3.	Se não encontrar → 404 Not Found
+4.	Se encontrar → retorna o objeto
+
+b) GET lista
+•	Paginação (page, pageSize)
+•	Filtros opcionais (status, código, mina…)
+•	Ordenação
+•	Resposta estruturada (total, itens, página atual)
+
+⭐ 3) UPDATE (PUT/PATCH)
+1.	Receber ID na rota
+2.	Receber DTO atualizado
+3.	Validar os campos
+4.	Buscar no banco
+5.	Se não existir → 404
+6.	Atualizar os campos
+7.	Salvar no banco (SaveChanges)
+8.	Retornar 204 No Content (padrão do REST)
+
+⭐ 4) DELETE
+A lógica:
+1.	Receber ID
+2.	Buscar no banco
+3.	Se não existir → 404
+4.	Remover (_db.Remove)
+5.	SaveChanges
+6.	Responder 204 No Content
