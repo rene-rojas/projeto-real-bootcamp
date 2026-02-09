@@ -73,13 +73,68 @@ namespace MinhaApi.Controllers
 
         
         [HttpGet("")]
-        //[ProducesResponseType(typeof(IEnumerable<LoteMinerio>), StatusCodes.Status200OK)]
+        
         public async Task<IActionResult> GetAll()
         {
             var lotes = await _db.LotesMinerio.AsNoTracking().ToListAsync();
             return Ok(lotes);
         }
+
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateLoteMinerioDto input)
+        {
+            // Validações básicas
+            if (string.IsNullOrWhiteSpace(input.MinaOrigem))
+                return BadRequest("MinaOrigem é obrigatória.");
+            if (string.IsNullOrWhiteSpace(input.LocalizacaoAtual))
+                return BadRequest("LocalizacaoAtual é obrigatória.");
+            if (input.TeorFe is < 0 or > 100)
+                return BadRequest("TeorFe deve estar entre 0 e 100 (%).");
+            if (input.Umidade is < 0 or > 100)
+                return BadRequest("Umidade deve estar entre 0 e 100 (%).");
+            if (input.Toneladas <= 0)
+                return BadRequest("Toneladas deve ser > 0.");
+            if (input.Status is < 0 or > 2)
+                return BadRequest("Status inválido (use 0, 1 ou 2).");
+
+            var lote = await _db.LotesMinerio.FirstOrDefaultAsync(x => x.Id == id);
+            if (lote is null) return NotFound();
+
+            // Atualiza campos (CodigoLote não muda aqui)
+            lote.MinaOrigem = input.MinaOrigem;
+            lote.TeorFe = input.TeorFe;
+            lote.Umidade = input.Umidade;
+            lote.SiO2 = input.SiO2;
+            lote.P = input.P;
+            lote.Toneladas = input.Toneladas;
+            lote.DataProducao = input.DataProducao ?? lote.DataProducao;
+            lote.Status = (StatusLote)input.Status;
+            lote.LocalizacaoAtual = input.LocalizacaoAtual;
+
+            await _db.SaveChangesAsync();
+            return NoContent(); // 204
+        }
         
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var lote = await _db.LotesMinerio.FirstOrDefaultAsync(x => x.Id == id);
+            if (lote is null)
+                return NotFound(); // 404
+
+            _db.LotesMinerio.Remove(lote);
+
+            try
+            {
+                await _db.SaveChangesAsync();
+                return NoContent(); // 204
+            }
+            catch (DbUpdateException ex)
+            {
+                // Ex.: violação de FK se houver dependências (movimentações, notas, etc.)
+                return Conflict("Não foi possível excluir o lote. Ele pode estar relacionado a outros registros.");
+            }
+        }
 
     }
 }
