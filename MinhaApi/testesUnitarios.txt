@@ -76,4 +76,7 @@ dotnet test --collect "XPlat Code Coverage" --results-directory TestResults
 
 Depois na pasta do coverage, rode esse comando:
 
+reportgenerator -reports:"TestResults/**/coverage.cobertura.xml" -targetdir:TestResults/coverage-report -reporttypes:"Html;TextSummary"
+
+
 type Summary.txt
