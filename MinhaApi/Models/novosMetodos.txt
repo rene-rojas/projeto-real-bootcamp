@@ -1,0 +1,14 @@
+🎯 VISÃO GERAL DO QUE VAMOS IMPLEMENTAR
+Ideia	O que faz
+1. Classificação de Qualidade	Retorna “Premium / Padrão / Baixa” baseado em Fe, Umidade e SiO₂
+2. Preço por Tonelada	Usa a classificação para calcular preço e valor total
+3. Histórico de Movimentação	Adiciona auditoria de updates: local, status, data
+4. Avançar Status do Lote	Simula o fluxo logístico real: Estoque → Transporte → Embarcado
+5. Penalidade por Umidade	Cálculo financeiro baseado no excesso de umidade
+Tudo isso integrável ao nosso CRUD, mas separado em uma classe LoteService para boas práticas.
+________________________________________
+Criar uma classe LoteService.cs com estes 5 métodos, usando lógica de programação.
+
+Fazer um método GET no Insomnia para as funções 1, 2 e 5. E métodos POST para a 3 e 4. Todas sem body no JSON.
+
+Criar também um controller LotesExtrasController  separado com as novas chamadas referente aos métodos.
