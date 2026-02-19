@@ -1,0 +1,55 @@
+Desafio Final — Sistema de Monitoramento de Equipamentos Pesados (Vale)
+Contexto
+Você fará uma API REST para gerenciar equipamentos de mina (ex.: caminhões fora-de-estrada, escavadeiras, perfuratrizes). O objetivo é avaliar sua capacidade de projetar e implementar CRUDs completos, validações, relacionamentos, migrações e deploy local com Docker Compose (API + PostgreSQL). Os testes devem ser realizados via Insomnia.
+Sem fila/eventos. Foque em CRUD, regras de negócio simples, persistência, documentação e organização do projeto.
+
+Entidades (mínimo obrigatório)
+1) Equipamento
+Representa um ativo operacional.
+•	Id (int, PK)
+•	Codigo (string, obrigatório, único) — ex.: CAT-793F-000123
+•	Tipo (enum/string) — Caminhao, Escavadeira, Perfuratriz, Carregadeira, Trator, etc.
+•	Modelo (string, obrigatório) — ex.: Caterpillar 793F
+•	Horimetro (decimal, >= 0) — horas acumuladas
+•	StatusOperacional (enum/string) — Operacional, EmManutencao, Parado
+•	DataAquisicao (date)
+•	LocalizacaoAtual (string) — ex.: Mina Carajás N4E, Oficina Central
+Regras de validação:
+•	Codigo obrigatório, sem espaços nas extremidades, único.
+•	Horimetro não pode ser negativo.
+•	Tipo e StatusOperacional devem aceitar apenas valores válidos.
+Endpoints Esperados (mínimo)
+Equipamentos
+•	POST /api/equipamentos — cria
+•	GET /api/equipamentos — lista (com paginação page, pageSize, e filtros opcionais: tipo, status, codigo)
+•	GET /api/equipamentos/{id} — detalhe
+•	PUT /api/equipamentos/{id} — atualiza
+•	DELETE /api/equipamentos/{id} — remove (somente se não houver manutenções associadas Concluídas; caso exista, retornar 409)
+
+Banco de Dados
+•	PostgreSQL 
+
+Criar a tabela no banco de dados
+•	Constraints: 
+o	Índice único em Equipamentos.Codigo. Se criar com outro igual, tem de dar erro na chamada da API.
+
+Amostras de Payload (Insomnia)
+
+Criar equipamento:
+
+POST /api/equipamentos
+{
+  "codigo": "CAT-793F-000123",
+  "tipo": "Caminhao",
+  "modelo": "Caterpillar 793F",
+  "horimetro": 18234.5,
+  "statusOperacional": "Operacional",
+  "dataAquisicao": "2019-03-15",
+  "localizacaoAtual": "Mina Carajás N4E"
+}
+Entrega
+Repositório Git com o código.
+README com: 
+Como rodar via Docker Compose
+Coleção do Insomnia (JSON export) com chamadas organizadas: 
+Equipamentos (CRUD)
